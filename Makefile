@@ -22,7 +22,7 @@ endif
 #generic linker flags
 LDFLAGS += -nostdlib --warn-common --no-undefined --fatal-warnings 
 
-OBJS := main.o display.o serio.o lib/string.o lib/assert.o
+OBJS := main.o display.o serio.o gdbstub.o lib/ctype.o lib/string.o lib/assert.o lib/stdlib.o
 
 all: boot0 kernel
 

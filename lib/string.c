@@ -1,4 +1,5 @@
 #include <string.h>
+#include <stdlib.h>
 
 
 void* memcpy(void* dst, const void* src, unsigned long num)
@@ -30,5 +31,19 @@ void* memset(void* ptr, int value, unsigned long num)
     }
 
     return ptr;
+}
+
+size_t strlen(const char* str)
+{
+    if (str == NULL) {
+        return 0;
+    }
+
+    size_t len = 0;
+    while (*str++ != '\0') {
+        ++len;
+    }
+
+    return len;
 }
 

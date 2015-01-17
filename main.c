@@ -6,6 +6,9 @@
 // Video mode 03h, 80x25, 16 colors, 0xB8000
 
 #include <stdint.h>
+#include <stdlib.h>
+#include <assert.h>
+#include <limits.h>
 
 #include <noos/display.h>
 #include <noos/serio.h>
