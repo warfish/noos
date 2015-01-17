@@ -31,6 +31,7 @@ run: floppy.img
 
 clean:
 	rm -rf *.o
+	rm -rf lib/*.o
 	rm -rf boot0
 	rm -rf main
 	rm -rf kernel

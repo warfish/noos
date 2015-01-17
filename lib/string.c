@@ -17,7 +17,7 @@ void* memcpy(void* dst, const void* src, unsigned long num)
     return dst;
 }
 
-void* memset(const void* ptr, int value, unsigned long num)
+void* memset(void* ptr, int value, unsigned long num)
 {
     if (ptr)
     {
