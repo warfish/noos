@@ -22,7 +22,7 @@ endif
 #generic linker flags
 LDFLAGS += -nostdlib --warn-common --no-undefined --fatal-warnings 
 
-OBJS := main.o display.o serio.o gdbstub.o lib/ctype.o lib/string.o lib/assert.o lib/stdlib.o
+OBJS := main.o display.o serio.o gdbstub.o arch/init.o lib/ctype.o lib/string.o lib/assert.o lib/stdlib.o
 
 all: boot0 kernel
 
@@ -32,6 +32,7 @@ run: floppy.img
 clean:
 	rm -rf *.o
 	rm -rf lib/*.o
+	rm -rf arch/*.o
 	rm -rf boot0
 	rm -rf main
 	rm -rf kernel
@@ -53,3 +54,5 @@ floppy.img: boot0 kernel
 %.o:%.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
+%.o:%.asm
+	$(NASM) -f elf32 -o $@ $<

@@ -18,6 +18,8 @@
 
 static char g_rx_buffer[GDB_RX_BUFFER_SIZE] = {0};
 
+static char g_hex_chars[] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
+
 static char gdb_recv_char(void)
 {
     return serio_read(GDB_SERIAL_PORT);
@@ -96,7 +98,8 @@ static void send_packet(const char* data)
     }
 
     char checksum_chars[3] = {0};
-    snprintf(checksum_chars, 3, "%02x", checksum);
+    checksum_chars[0] = g_hex_chars[(checksum >> 4) & 0xF];
+    checksum_chars[1] = g_hex_chars[checksum & 0xF];
 
 _resend:
 

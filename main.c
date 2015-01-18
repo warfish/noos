@@ -13,15 +13,19 @@
 #include <noos/display.h>
 #include <noos/serio.h>
 
+#include <arch/init.h>
+
 // Points to image base
 extern void* __image_base;
 
 void noos_start(void) __attribute__((section(".noos_start")));
 void noos_start(void)
 {
+    arch_init();
     display_clear();
     serio_init(SIO_COM1, SIO_B115200);
 
+    __asm__("int $3");
     while (1)
         ;
 }

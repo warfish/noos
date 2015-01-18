@@ -5,7 +5,7 @@
 ;
 
 %define LBA 1
-%define SECTORS 9
+%define SECTORS 13
 %define SEGMENT 0x1000
 %define OFFSET 0x0
 %define BASE 0x10000
@@ -44,12 +44,6 @@ boot0:
     call    pstr
 
     ; Load kernel at 0x10000, sector 1
-    ;push    dword LBA
-    ;push    dword 0
-    ;push    SEGMENT
-    ;push    OFFSET
-    ;push    SECTORS
-    ;push    1000h
     mov     ah, 42h
     mov     si, dap
     int     13h
