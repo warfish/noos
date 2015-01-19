@@ -1,7 +1,0 @@
-#ifndef NOOS_ARCH_INTERRUPTS_H
-#define NOOS_ARCH_INTERRUPTS_H
-
-
-
-#endif // NOOS_ARCH_INTERRUPTS_H
-

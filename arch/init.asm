@@ -36,26 +36,6 @@ arch_init:
     loop    .loop
     lidt    [idtr]
 
-    ; Init PIC
-    ;mov     al, 0x11
-    ;out     0x20, al
-    ;out     0xA0, al
-    ;mov     al, 0x20
-    ;out     0x21, al
-    ;mov     al, 0x28
-    ;out     0xA1, al
-    ;mov     al, 4
-    ;out     0x21, al
-    ;mov     al, 2
-    ;out     0xA1, al
-    ;mov     al, 1
-    ;out     0x21, al
-    ;out     0xA1, al
-    ;mov     al, 0xFE
-    ;out     0x21, al
-    ;mov     al, 0xFF
-    ;out     0xA1, al
-
     popf
     pop     ebx
     pop     esi
@@ -87,4 +67,86 @@ gdt_end:
 idt_start: 
     times 256 dq 0x00008E0000080000 
 idt_end:
+
+global _arch_enable_interrupts
+_arch_enable_interrupts:
+    sti
+    ret
+
+global _arch_disable_interrupts
+_arch_disable_interrupts:
+    cli
+    ret
+
+global _arch_save_disable_interrupts
+_arch_save_disable_interrupts:
+    pushf
+    pop     eax
+    and     eax, 0x200
+
+global _arch_restore_interrupts
+_arch_restore_interrupts:
+    push    ebp
+    mov     ebp, esp
+    mov     eax, [ebp + 8]
+    test    eax, eax
+    jz      .done
+    pushf
+    mov     eax, [esp]
+    or      eax, 0x200
+    mov     [esp], eax
+    popf
+.done:
+    pop     ebp
+    ret
+
+; void arch_install_interrupt_handler(int interrupt, arch_interrupt_handler_t handler);
+global _arch_install_interrupt_handler
+_arch_install_interrupt_handler:
+    push    ebp
+    mov     ebp, esp
+    push    edi
+    pushf
+    cli
+    mov     eax, [ebp + 8]
+    mov     ecx, [ebp + 12]
+    cmp     eax, 256
+    jae     .invalid_interrupt
+    test    ecx, ecx
+    jz      .invalid_handler
+    shl     eax, 3
+    lea     edi, [eax + idt_start]
+    mov     [edi], cx
+    shr     ecx, 16
+    mov     [edi + 6], cx
+
+.invalid_interrupt:
+.invalid_handler:
+    popf
+    pop     edi
+    pop     ebp
+    ret
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+    ; Init PIC
+    ; TODO: move this to appropriate file
+    ;mov     al, 0x11
+    ;out     0x20, al
+    ;out     0xA0, al
+    ;mov     al, 0x20
+    ;out     0x21, al
+    ;mov     al, 0x28
+    ;out     0xA1, al
+    ;mov     al, 4
+    ;out     0x21, al
+    ;mov     al, 2
+    ;out     0xA1, al
+    ;mov     al, 1
+    ;out     0x21, al
+    ;out     0xA1, al
+    ;mov     al, 0xFE
+    ;out     0x21, al
+    ;mov     al, 0xFF
+    ;out     0xA1, al
 

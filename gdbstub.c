@@ -6,8 +6,7 @@
 #include <string.h>
 #include <stdlib.h>
 
-#include <arch/interrupts.h>
-#include <arch/cpu.h>
+#include <arch/dbg.h>
 
 #include <noos/serio.h>
 
@@ -146,7 +145,7 @@ static void reply_success(void)
 }
 
 // CPU exception callback
-static void gdb_exception_handler(struct cpu_context* ctx)
+static void gdb_exception_handler(int vecnum, struct cpu_context* ctx)
 {
     while(1) {
         recv_packet();
@@ -173,5 +172,13 @@ static void gdb_exception_handler(struct cpu_context* ctx)
     }   
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void gdb_start_stub(void)
+{
+    dbg_install_exception_handler(gdb_exception_handler);
+    __asm__ ("int $3");
+
+}
 //////////////////////////////////////////////////////////////////////////////////////////////////
 

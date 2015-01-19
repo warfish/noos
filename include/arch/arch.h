@@ -1,5 +1,5 @@
-#ifndef NOOS_ARCH_CPU_H
-#define NOOS_ARCH_CPU_H
+#ifndef _ARCH_ARCH_H
+#define _ARCH_ARCH_H
 
 struct cpu_context 
 {
@@ -25,6 +25,17 @@ struct cpu_context
     uint32_t dr4;
     uint32_t dr7;
 };
+
+void arch_init(void);
+
+void arch_disable_interrupts();
+void arch_enable_interrupts();
+
+int arch_save_disable_interrupts();
+void arch_restore_interrupts(int state);
+
+typedef void(*arch_interrupt_handler_t)(void);
+void arch_install_interrupt_handler(int interrupt, arch_interrupt_handler_t handler);
 
 #endif
 
