@@ -68,24 +68,24 @@ idt_start:
     times 256 dq 0x00008E0000080000 
 idt_end:
 
-global _arch_enable_interrupts
-_arch_enable_interrupts:
+global arch_enable_interrupts
+arch_enable_interrupts:
     sti
     ret
 
-global _arch_disable_interrupts
-_arch_disable_interrupts:
+global arch_disable_interrupts
+arch_disable_interrupts:
     cli
     ret
 
-global _arch_save_disable_interrupts
-_arch_save_disable_interrupts:
+global arch_save_disable_interrupts
+arch_save_disable_interrupts:
     pushf
     pop     eax
     and     eax, 0x200
 
-global _arch_restore_interrupts
-_arch_restore_interrupts:
+global arch_restore_interrupts
+arch_restore_interrupts:
     push    ebp
     mov     ebp, esp
     mov     eax, [ebp + 8]
@@ -101,8 +101,8 @@ _arch_restore_interrupts:
     ret
 
 ; void arch_install_interrupt_handler(int interrupt, arch_interrupt_handler_t handler);
-global _arch_install_interrupt_handler
-_arch_install_interrupt_handler:
+global arch_install_interrupt_handler
+arch_install_interrupt_handler:
     push    ebp
     mov     ebp, esp
     push    edi
