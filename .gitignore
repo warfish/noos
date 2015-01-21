@@ -1,6 +1,7 @@
 *.o
 *.swp
 *.swo
+*.efi
 main
 kernel
 boot0
