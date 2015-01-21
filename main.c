@@ -21,7 +21,7 @@ extern void* __image_base;
 void noos_start(void) __attribute__((section(".noos_start")));
 void noos_start(void)
 {
-    arch_init();
+    //arch_init();
     serio_init(SIO_COM1, SIO_B115200);
     display_clear();
 
