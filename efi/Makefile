@@ -47,7 +47,7 @@ LIBS += -lefi -lgnuefi
 
 FORMAT := --target efi-app-$(ARCH)
 
-OBJS := piggy.o ../kernel.o
+OBJS := piggy.o kernel.o
 
 TARGET := piggy.efi
 
@@ -61,6 +61,9 @@ clean:
 	rm -rf *.efi
 	rm -rf *.so
 	rm -rf *.o
+
+kernel.o: ../kernel
+	$(OBJCOPY) -B i386:x86-64 -I binary -O elf64-x86-64 $< $@
 
 %.efi: %.so
 	$(OBJCOPY) -j .text -j .sdata -j .data -j .dynamic -j .dynsym -j .rel* -j .rela* -j .reloc $(FORMAT) $*.so $@

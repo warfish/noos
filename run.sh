@@ -13,7 +13,7 @@ fi
 
 # create boot file system structure
 mkdir -p ./hda/EFI/BOOT
-cp ../advisor.efi ./hda/EFI/BOOT/BOOTx64.efi
+cp ../efi/piggy.efi ./hda/EFI/BOOT/BOOTx64.efi
 
 # run qemu
 qemu-system-x86_64 -bios OVMF.fd -L . -hda fat:./hda

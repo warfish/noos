@@ -25,13 +25,10 @@ LDFLAGS += -nostdlib --warn-common --no-undefined --fatal-warnings
 
 OBJS := main.o display.o serio.o lib/ctype.o lib/string.o lib/assert.o lib/stdlib.o
 
-all: efi/piggy.efi
+all: kernel piggy
 
-efi/piggy.efi: kernel.o
+piggy:
 	$(MAKE) -C efi
-
-kernel.o: kernel
-	$(OBJCOPY) -B i386:x86-64 -I binary -O elf64-x86-64 $< $@
 
 kernel: $(OBJS)
 	$(LD) $(LDFLAGS) -T main.lds -o $@ $^
@@ -48,3 +45,6 @@ clean:
 	rm -rf arch/*.o
 	rm -rf kernel
 	$(MAKE) -C efi clean
+
+.PHONY:piggy
+
